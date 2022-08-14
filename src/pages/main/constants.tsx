@@ -10,7 +10,6 @@ import {
 
 export const ENGLISH_TEXT = 'Английский'
 export const RUSSIA_TEXT = 'Русский'
-export const CHECKBOX_TEXT = 'Активность'
 export const STEP_FIRST_TEXT = 'Добавьте слова'
 export const ADD_BUTTON_TEXT = 'Добавить слово'
 export const MODE_TEXT = 'Выберите режим'

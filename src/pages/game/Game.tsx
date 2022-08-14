@@ -17,11 +17,15 @@ import { setWords } from 'services/game/game'
 import WordForm from './word-form/WordForm'
 
 import styles from './Game.module.scss'
+import Result from './result/Result'
 
 const Game = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const words = useSelector((state: RootState) => state.game.words)
+  const {
+    words,
+    currentWord,
+  } = useSelector((state: RootState) => state.game)
   const activeOptions = useSelector(getActiveOptions)
 
   const redirect = () => {
@@ -36,13 +40,22 @@ const Game = () => {
     dispatch(setWords(activeOptions))
   }, [])
 
+  if (currentWord > words.length - 1) {
+    return (
+      <Result />
+    )
+  }
+
   return (
     <Row
       className={styles.container}
       justify='center'
       align='middle'
     >
-      <Col className={styles.wrap}>
+      <Col
+        className={styles.wrap}
+        span={15}
+      >
         <WordForm />
         <CompleteStatus words={words} />
       </Col>

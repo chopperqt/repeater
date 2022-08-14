@@ -6,21 +6,29 @@ import {
   Button,
 } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  FastForwardOutlined,
+  StepForwardOutlined,
+  CloseOutlined,
+} from '@ant-design/icons'
 
 import {
   RequiredText,
 } from 'helpers/validateMessages'
 import { nextWords, setWord } from 'services/game/game'
 import { RootState } from 'services/store'
-import { TRANSLATE_INPUT_TEXT } from '../constants'
+import { END_TEXT, NEXT_TEXT, SKIP_TEXT, TRANSLATE_INPUT_TEXT, TRANSLATE_TEXT } from '../constants'
 import { GameForm } from 'models/game'
 import { checkTranslate } from '../helpers/checkTransalate'
+
+import styles from './WordForm.module.scss'
 
 const WordForm = () => {
   const dispatch = useDispatch()
   const currentWord = useSelector((state: RootState) => state.game.currentWord)
   const words = useSelector((state: RootState) => state.game.words)
   const mode = useSelector((state: RootState) => state.settings.mode)
+  const [form] = Form.useForm()
 
   let word = words[currentWord]?.english
 
@@ -46,6 +54,8 @@ const WordForm = () => {
       status,
     }))
 
+    form.resetFields()
+
     dispatch(nextWords())
   }
 
@@ -56,6 +66,8 @@ const WordForm = () => {
       status: 'ERROR',
     }))
 
+    form.resetFields()
+
     dispatch(nextWords())
   }
 
@@ -64,43 +76,73 @@ const WordForm = () => {
   }
 
   return (
-    <Row>
-      <div>{word}</div>
-      <Form
-        onFinish={handleSubmit}
-      >
-        <Col>
-          <Form.Item
-            name="word"
-            rules={[
-              {
-                required: true,
-                message: RequiredText,
-              }
-            ]}
+    <Col span={24}>
+      <Row>
+        <div className={styles.text}>
+          {TRANSLATE_TEXT}&nbsp;
+          <span className={styles.word}>
+            {word}
+          </span>
+        </div>
+      </Row>
+      <Col className={styles.form}>
+        <Form
+          form={form}
+          onFinish={handleSubmit}
+        >
+          <Col span={24}>
+            <Form.Item
+              name="word"
+              rules={[
+                {
+                  required: true,
+                  message: RequiredText,
+                }
+              ]}
+            >
+              <Input
+                placeholder={TRANSLATE_INPUT_TEXT}
+                size="large"
+              />
+            </Form.Item>
+          </Col>
+          <Row
+            gutter={[12, 12]}
+            justify="center"
           >
-            <Input placeholder={TRANSLATE_INPUT_TEXT} />
-          </Form.Item>
-        </Col>
-        <Row gutter={[12, 12]}>
-          <Col>
-            <Button>
-              Завершить
-            </Button>
-          </Col>
-          <Col>
-            <Button onClick={handleSkip}>
-              Пропусить
-            </Button>
-          </Col>
-          <Col>
-            <Button htmlType="submit">
-              Далее
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-    </Row>
+            <Col>
+              <Button
+                danger={true}
+                type="primary"
+                size="large"
+                icon={<CloseOutlined />}
+              >
+                {END_TEXT}
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                onClick={handleSkip}
+                size="large"
+                icon={<FastForwardOutlined />}
+              >
+                {SKIP_TEXT}
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                icon={<StepForwardOutlined />}
+                htmlType="submit"
+                size="large"
+                type="primary"
+              >
+                {NEXT_TEXT}
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Col>
+    </Col>
   )
 }
 

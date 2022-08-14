@@ -1,6 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createSelector,
+} from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 import { WordsValues } from "models/main";
+import { RootState } from "services/store";
 
 export interface Word extends WordsValues {
   status: StatusTranslate
@@ -47,6 +52,38 @@ export const gameSlice = createSlice({
     }
   }
 })
+
+export const getAmountOfCompleteWords = createSelector(
+  (state: RootState) => state.game.words,
+  (words) => {
+    return words
+      .map(({ status }) => {
+        if (status !== 'COMPLETE') {
+          return null
+        }
+
+        return status
+      })
+      .filter(Boolean)
+      .length
+  }
+)
+
+export const getAmountOfErrorWords = createSelector(
+  (state: RootState) => state.game.words,
+  (words) => {
+    return words
+      .map(({ status }) => {
+        if (status !== 'ERROR') {
+          return null
+        }
+
+        return status
+      })
+      .filter(Boolean)
+      .length
+  }
+)
 
 export const {
   nextWords,

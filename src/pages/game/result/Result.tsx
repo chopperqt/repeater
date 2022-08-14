@@ -2,11 +2,27 @@ import {
   Row,
   Col,
 } from 'antd'
+import { useSelector } from 'react-redux'
 
-const Result = () => (
-  <Row>
+import { getAmountOfCompleteWords, getAmountOfErrorWords } from 'services/game/game'
 
-  </Row>
-)
+import styles from './Result.module.scss'
+
+const Result = () => {
+  const amountOfCompleteWords = useSelector(getAmountOfCompleteWords)
+  const amountOfErrorWords = useSelector(getAmountOfErrorWords)
+
+  return (
+    <Row
+      className={styles.layout}
+      justify="center"
+      align="middle"
+    >
+      <Col>
+        {amountOfCompleteWords}
+      </Col>
+    </Row>
+  )
+}
 
 export default Result

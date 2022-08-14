@@ -10,16 +10,19 @@ import {
   Checkbox,
   Typography,
   Radio,
+  Switch,
 } from 'antd'
 import {
   PlusOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  PlayCircleOutlined,
 } from '@ant-design/icons'
 
 import {
   ENGLISH_TEXT,
   RUSSIA_TEXT,
-  CHECKBOX_TEXT,
   RulesRussiaField,
   RulesEnglishField,
   STEP_FIRST_TEXT,
@@ -106,7 +109,7 @@ const List = () => {
       </Title>
       <Form.List name="words">
         {(fields, { add, remove }) => (
-          <>
+          <Col span={15}>
             {fields.map(({
               key,
               name,
@@ -116,6 +119,19 @@ const List = () => {
                 key={key}
                 gutter={[12, 12]}
               >
+                <Col>
+                  <Form.Item
+                    {...resetField}
+                    name={[name, 'isActive']}
+                    valuePropName="checked"
+                    initialValue={true}
+                  >
+                    <Switch
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                    />
+                  </Form.Item>
+                </Col>
                 <Col span={8}>
                   <Form.Item
                     {...resetField}
@@ -123,6 +139,7 @@ const List = () => {
                     rules={RulesEnglishField}
                   >
                     <Input
+                      size="large"
                       placeholder={ENGLISH_TEXT}
                     />
                   </Form.Item>
@@ -133,36 +150,26 @@ const List = () => {
                     name={[name, 'russia']}
                     rules={RulesRussiaField}
                   >
-                    <Input placeholder={RUSSIA_TEXT} />
+                    <Input
+                      placeholder={RUSSIA_TEXT}
+                      size="large"
+                    />
                   </Form.Item>
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                   <Button
                     danger={true}
                     block={true}
                     onClick={() => remove(name)}
+                    size="large"
                   >
                     <DeleteOutlined />
                   </Button>
                 </Col>
-                <Col span={6}>
-                  <Form.Item
-                    {...resetField}
-                    name={[name, 'isActive']}
-                    valuePropName="checked"
-                    initialValue={true}
-                  >
-                    <Checkbox>
-                      {CHECKBOX_TEXT}
-                    </Checkbox>
-                  </Form.Item>
-
-                </Col>
-
               </Row>
             ))}
             <Row>
-              <Col span={22}>
+              <Col span={21}>
                 <Button
                   onClick={() => add()}
                   type="dashed"
@@ -173,7 +180,7 @@ const List = () => {
                 </Button>
               </Col>
             </Row>
-          </>
+          </Col>
         )}
       </Form.List>
       <Row>
@@ -205,16 +212,20 @@ const List = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify='center'>
-        <Form.Item>
-          <Button
-            type='primary'
-            htmlType='submit'
-          >
-            {START_BUTTON_TEXT}
-          </Button>
-        </Form.Item>
-      </Row>
+      <Col span={13}>
+        <Row justify='center'>
+          <Form.Item>
+            <Button
+              size="large"
+              type='primary'
+              htmlType='submit'
+              icon={<PlayCircleOutlined />}
+            >
+              {START_BUTTON_TEXT}
+            </Button>
+          </Form.Item>
+        </Row>
+      </Col>
     </Form >
   )
 }
