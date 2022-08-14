@@ -7,56 +7,33 @@ import {
 import {
   Row,
   Col,
-  Input,
-  Typography,
 } from 'antd'
 import { RootState } from 'services/store'
-import { setSettings, SettingsStore } from 'services/settings/settings'
+import {
+  getActiveOptions,
+} from 'services/settings/settings'
+import CompleteStatus from './complete-status/CompleteStatus'
+import { setWords } from 'services/game/game'
+import WordForm from './word-form/WordForm'
 
 import styles from './Game.module.scss'
-import { TRANSLATE_TEXT } from './constants'
-
-const { Text } = Typography
 
 const Game = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const {
-    words,
-    mode,
-  } = useSelector((state: RootState) => state.settings)
-  const {
-    currentWords,
-  } = useSelector((state: RootState) => state.game)
+  const words = useSelector((state: RootState) => state.game.words)
+  const activeOptions = useSelector(getActiveOptions)
 
   const redirect = () => {
     navigate('/', { replace: true })
   }
 
   useEffect(() => {
-    const gameOptionsFromStorage = localStorage.getItem('settings')
-
-    if (words.length && mode) {
-      return
-    }
-
-    if (!gameOptionsFromStorage) {
+    if (!activeOptions.length) {
       redirect()
-
-      return
     }
 
-    const parseGameOptions = JSON.parse(gameOptionsFromStorage)
-
-    if (!parseGameOptions?.mode || !parseGameOptions?.words?.length) {
-      console.log(!!parseGameOptions?.mode)
-
-      redirect()
-
-      return
-    }
-
-    dispatch(setSettings(parseGameOptions))
+    dispatch(setWords(activeOptions))
   }, [])
 
   return (
@@ -65,9 +42,9 @@ const Game = () => {
       justify='center'
       align='middle'
     >
-      <Col span={10}>
-        <Text>{TRANSLATE_TEXT} {words[currentWords].english}</Text>
-        <Input />
+      <Col className={styles.wrap}>
+        <WordForm />
+        <CompleteStatus words={words} />
       </Col>
     </Row>
   )

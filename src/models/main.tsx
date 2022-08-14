@@ -1,6 +1,11 @@
+export type Mode =
+  'engToRus' |
+  'rusToEng' |
+  ''
+
 export interface WordsForm {
   words: WordsValues[]
-  mode: string
+  mode: Mode
 }
 
 export interface WordsValues {
