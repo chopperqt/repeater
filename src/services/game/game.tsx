@@ -88,6 +88,21 @@ export const getAmountOfErrorWords = createSelector(
   }
 )
 
+export const getErrorWords = createSelector(
+  (state: RootState) => state.game.words,
+  (words) => {
+    return words
+      .map((word) => {
+        if (word.status !== 'ERROR') {
+          return null
+        }
+
+        return word
+      })
+      .filter(Boolean)
+  }
+)
+
 export const {
   nextWords,
   setWord,
