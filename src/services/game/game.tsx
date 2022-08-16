@@ -9,6 +9,7 @@ import { RootState } from "services/store";
 
 export interface Word extends WordsValues {
   status: StatusTranslate
+  enteredWord?: string
 }
 export interface GameStore {
   words: Word[]
@@ -44,11 +45,13 @@ export const gameSlice = createSlice({
       const {
         english,
         status,
+        enteredWord,
       } = action.payload
 
       const wordIndex = state.words.findIndex((word) => word.english === english)
 
       state.words[wordIndex].status = status
+      state.words[wordIndex].enteredWord = enteredWord
     }
   }
 })

@@ -109,7 +109,7 @@ const List = () => {
       </Title>
       <Form.List name="words">
         {(fields, { add, remove }) => (
-          <Col span={15}>
+          <Col span={24}>
             {fields.map(({
               key,
               name,
@@ -132,7 +132,10 @@ const List = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col span={8}>
+                <Col
+                  span={9}
+                  lg={9}
+                >
                   <Form.Item
                     {...resetField}
                     name={[name, 'english']}
@@ -144,7 +147,7 @@ const List = () => {
                     />
                   </Form.Item>
                 </Col>
-                <Col span={8}>
+                <Col span={9}>
                   <Form.Item
                     {...resetField}
                     name={[name, 'russia']}
@@ -169,7 +172,7 @@ const List = () => {
               </Row>
             ))}
             <Row>
-              <Col span={21}>
+              <Col span={23}>
                 <Button
                   onClick={() => add()}
                   type="dashed"
@@ -212,7 +215,7 @@ const List = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Col span={13}>
+      <Col span={24}>
         <Row justify='center'>
           <Form.Item>
             <Button

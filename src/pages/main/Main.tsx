@@ -12,11 +12,11 @@ const Main = () => {
     <div className={styles.container}>
       <Row justify='center'>
         <Col
-          xs={23}
-          lg={16}
+          xs={24}
+          lg={7}
           md={20}
           sm={20}
-          span={20}
+          span={12}
         >
           <List />
         </Col>

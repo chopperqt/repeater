@@ -54,7 +54,11 @@ const Game = () => {
     >
       <Col
         className={styles.wrap}
-        span={15}
+        span={7}
+        lg={7}
+        md={12}
+        xs={23}
+        sm={23}
       >
         <WordForm />
         <CompleteStatus words={words} />

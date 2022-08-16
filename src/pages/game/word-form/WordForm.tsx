@@ -22,6 +22,7 @@ import { GameForm } from 'models/game'
 import { checkTranslate } from '../helpers/checkTransalate'
 
 import styles from './WordForm.module.scss'
+import normalizeWord from 'helpers/normalizeWord'
 
 const WordForm = () => {
   const dispatch = useDispatch()
@@ -35,6 +36,8 @@ const WordForm = () => {
   if (mode === 'rusToEng') {
     word = words[currentWord]?.russia
   }
+
+  const normalizedWord = normalizeWord(word)
 
   const handleSubmit = (value: GameForm) => {
     const {
@@ -52,6 +55,7 @@ const WordForm = () => {
     dispatch(setWord({
       ...words[currentWord],
       status,
+      enteredWord: value.word,
     }))
 
     form.resetFields()
@@ -81,7 +85,7 @@ const WordForm = () => {
         <div className={styles.text}>
           {TRANSLATE_TEXT}&nbsp;
           <span className={styles.word}>
-            {word}
+            {normalizedWord}
           </span>
         </div>
       </Row>
