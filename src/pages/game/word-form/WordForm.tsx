@@ -5,7 +5,10 @@ import {
   Row,
   Button,
 } from 'antd'
-import { useDispatch, useSelector } from 'react-redux'
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux'
 import {
   FastForwardOutlined,
   StepForwardOutlined,
@@ -17,7 +20,13 @@ import {
 } from 'helpers/validateMessages'
 import { nextWords, setWord } from 'services/game/game'
 import { RootState } from 'services/store'
-import { END_TEXT, NEXT_TEXT, SKIP_TEXT, TRANSLATE_INPUT_TEXT, TRANSLATE_TEXT } from '../constants'
+import {
+  END_TEXT,
+  NEXT_TEXT,
+  SKIP_TEXT,
+  TRANSLATE_INPUT_TEXT,
+  TRANSLATE_TEXT,
+} from 'language/ru'
 import { GameForm } from 'models/game'
 import { checkTranslate } from '../helpers/checkTransalate'
 

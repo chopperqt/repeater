@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   useDispatch,
   useSelector,
@@ -11,16 +10,15 @@ import {
 import { RootState } from 'services/store'
 import {
   getActiveOptions,
+  nextStep,
 } from 'services/settings/settings'
 import CompleteStatus from './complete-status/CompleteStatus'
 import { setWords } from 'services/game/game'
 import WordForm from './word-form/WordForm'
 
 import styles from './Game.module.scss'
-import Result from './result/Result'
 
 const Game = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const {
     words,
@@ -28,23 +26,21 @@ const Game = () => {
   } = useSelector((state: RootState) => state.game)
   const activeOptions = useSelector(getActiveOptions)
 
-  const redirect = () => {
-    navigate('/', { replace: true })
-  }
-
   useEffect(() => {
-    if (!activeOptions.length) {
-      redirect()
+    if (currentWord < activeOptions.length) {
+      return
     }
 
+    dispatch(nextStep())
+  }, [
+    currentWord,
+    activeOptions,
+    dispatch,
+  ])
+
+  useEffect(() => {
     dispatch(setWords(activeOptions))
   }, [])
-
-  if (currentWord > words.length - 1) {
-    return (
-      <Result />
-    )
-  }
 
   return (
     <Row
@@ -52,16 +48,14 @@ const Game = () => {
       justify='center'
       align='middle'
     >
-      <Col
-        className={styles.wrap}
-        span={7}
-        lg={7}
-        md={12}
-        xs={23}
-        sm={23}
-      >
-        <WordForm />
-        <CompleteStatus words={words} />
+      <Col className={styles.wrap}>
+        {!!words.length && (
+          <>
+            <WordForm />
+            <CompleteStatus words={words} />
+          </>
+        )}
+
       </Col>
     </Row>
   )

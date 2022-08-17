@@ -52,6 +52,10 @@ export const gameSlice = createSlice({
 
       state.words[wordIndex].status = status
       state.words[wordIndex].enteredWord = enteredWord
+    },
+    resetGame: (state) => {
+      state.currentWord = 0
+      state.words = []
     }
   }
 })
@@ -92,7 +96,7 @@ export const getErrorWords = createSelector(
   (state: RootState) => state.game.words,
   (words) => {
     return words
-      .map((word) => {
+      .map((word, index) => {
         if (word.status !== 'ERROR') {
           return null
         }
@@ -107,6 +111,7 @@ export const {
   nextWords,
   setWord,
   setWords,
+  resetGame,
 } = gameSlice.actions
 
 export default gameSlice.reducer

@@ -7,12 +7,13 @@ import {
 
 import './App.scss'
 
-import Game from 'pages/game';
 import { useSelector } from 'react-redux';
 import { RootState } from 'services/store';
 import {
   Mode,
   WordsList,
+  Result,
+  Game,
 } from 'pages';
 
 const { Step } = Steps
@@ -32,7 +33,7 @@ const steps = [
   },
   {
     title: 'Результат',
-    content: <>Резульатт</>
+    content: <Result />
   }
 ]
 
@@ -51,7 +52,7 @@ function App() {
           </div>
           <div className="container">
             <div className='steps'>
-              <Steps>
+              <Steps current={currentStep}>
                 {steps.map(({ title }) => (
                   <Step
                     key={title}

@@ -15,14 +15,14 @@ import {
 
 import styles from './Mode.module.scss'
 import { useDispatch } from "react-redux"
-import { nextStep } from "services/settings/settings"
+import {
+  nextStep,
+  setMode,
+} from "services/settings/settings"
+import { ModeForm } from "models/mode"
 
 const defaultValue = {
   mode: ''
-}
-
-interface FormValue {
-  mode: string
 }
 
 const Mode = () => {
@@ -32,7 +32,7 @@ const Mode = () => {
     ? JSON.parse(values)
     : defaultValue
 
-  const handleFinish = (values: FormValue) => {
+  const handleFinish = (values: ModeForm) => {
     const formattedSettings = {
       ...formValueFromStorage,
       ...values,
@@ -40,6 +40,10 @@ const Mode = () => {
     const settingsToJSON = JSON.stringify(formattedSettings)
 
     localStorage.setItem('settings', settingsToJSON)
+
+    dispatch(setMode({
+      mode: values.mode,
+    }))
 
     dispatch(nextStep())
   }

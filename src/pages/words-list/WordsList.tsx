@@ -31,7 +31,7 @@ import {
   WordsValues,
 } from 'models/main'
 import { useDispatch, useSelector } from 'react-redux'
-import { nextStep, setSettings } from 'services/settings/settings'
+import { nextStep, setWords } from 'services/settings/settings'
 
 import styles from './WordsList.module.scss'
 import { RootState } from 'services/store'
@@ -76,7 +76,7 @@ const List = () => {
       words: normalizedValues
     })
 
-    dispatch(setSettings(allValues))
+    dispatch(setWords(allValues))
 
     localStorage.setItem('settings', valuesToJSON)
   }
@@ -84,7 +84,7 @@ const List = () => {
   const handleFinish = (values: WordsForm) => {
     const valuesToJSON = JSON.stringify(values)
 
-    dispatch(setSettings(values))
+    dispatch(setWords(values))
 
     localStorage.setItem('settings', valuesToJSON)
   }
@@ -102,7 +102,7 @@ const List = () => {
   }, [words])
 
   useEffect(() => {
-    dispatch(setSettings(formValueFromStorage))
+    dispatch(setWords(formValueFromStorage))
   }, [])
 
   return (
