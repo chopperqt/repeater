@@ -6,18 +6,21 @@ import { WordsForm, WordsValues } from 'models/main'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from 'services/store'
 
-export type SettingsStore = WordsForm
+export interface SettingsStore extends WordsForm {
+  step: number,
+}
 
 const initialState: SettingsStore = {
   words: [],
   mode: '',
+  step: 0,
 }
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setSettings: (state, action: PayloadAction<SettingsStore>) => {
+    setSettings: (state, action: PayloadAction<WordsForm>) => {
       const {
         mode,
         words
@@ -25,12 +28,19 @@ export const settingsSlice = createSlice({
 
       state.mode = mode
       state.words = words
+    },
+    nextStep: (state) => {
+      state.step += 1
+    },
+    setState: (state, action: PayloadAction<number>) => {
+      state.step = action.payload
     }
   }
 })
 
 export const {
   setSettings,
+  nextStep,
 } = settingsSlice.actions
 
 export const getActiveOptions = createSelector(

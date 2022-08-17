@@ -1,0 +1,18 @@
+body {
+  background: url('./assets/images/bg.png');
+}
+
+.container {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  height: 100%;
+}
+
+.steps {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  width: inherit;
+}
