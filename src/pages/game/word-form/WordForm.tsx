@@ -18,7 +18,7 @@ import {
 import {
   RequiredText,
 } from 'helpers/validateMessages'
-import { nextWords, setWord } from 'services/game/game'
+import { nextWords, resetGame, setWord } from 'services/game/game'
 import { RootState } from 'services/store'
 import {
   END_TEXT,
@@ -29,9 +29,10 @@ import {
 } from 'language/ru'
 import { GameForm } from 'models/game'
 import { checkTranslate } from '../helpers/checkTransalate'
+import { resetSettings } from 'services/settings/settings'
+import normalizeWord from 'helpers/normalizeWord'
 
 import styles from './WordForm.module.scss'
-import normalizeWord from 'helpers/normalizeWord'
 
 const WordForm = () => {
   const dispatch = useDispatch()
@@ -84,6 +85,11 @@ const WordForm = () => {
     dispatch(nextWords())
   }
 
+  const handleReset = () => {
+    dispatch(resetSettings())
+    dispatch(resetGame())
+  }
+
   if (!words) {
     return null
   }
@@ -129,6 +135,7 @@ const WordForm = () => {
                 type="primary"
                 size="large"
                 icon={<CloseOutlined />}
+                onClick={handleReset}
               >
                 {END_TEXT}
               </Button>

@@ -5,7 +5,7 @@ import {
   Table,
   Button,
 } from 'antd'
-import { RESULT_TITLE } from 'language/ru'
+import { REPEAT_TEXT, RESET_TEXT, RESULT_TITLE } from 'language/ru'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   RollbackOutlined,
@@ -16,6 +16,7 @@ import {
   getAmountOfCompleteWords,
   getAmountOfErrorWords,
   getErrorWords,
+  repeatGame,
   resetGame,
   Word,
 } from 'services/game/game'
@@ -24,9 +25,12 @@ import {
   ERROR_TEXT,
 } from 'language/ru'
 import { Columns } from './constants'
+import {
+  repeatSettings,
+  resetSettings,
+} from 'services/settings/settings'
 
 import styles from './Result.module.scss'
-import { resetSettings } from 'services/settings/settings'
 
 const {
   Title,
@@ -42,6 +46,11 @@ const Result = () => {
   const handleReset = () => {
     dispatch(resetSettings())
     dispatch(resetGame())
+  }
+
+  const handleRepeat = () => {
+    dispatch(repeatSettings())
+    dispatch(repeatGame())
   }
 
   return (
@@ -81,14 +90,15 @@ const Result = () => {
             icon={<RollbackOutlined />}
             onClick={handleReset}
           >
-            Завершить
+            {RESET_TEXT}
           </Button>
           <Button
             size="large"
             type="primary"
             icon={<UndoOutlined />}
+            onClick={handleRepeat}
           >
-            Повторить
+            {REPEAT_TEXT}
           </Button>
         </Row>
       </Col>

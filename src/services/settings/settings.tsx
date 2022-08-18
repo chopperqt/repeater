@@ -39,6 +39,9 @@ export const settingsSlice = createSlice({
     },
     resetSettings: (state) => {
       state.step = 0
+    },
+    repeatSettings: (state) => {
+      state.step = 2
     }
   }
 })
@@ -48,6 +51,7 @@ export const {
   setMode,
   nextStep,
   resetSettings,
+  repeatSettings,
 } = settingsSlice.actions
 
 export const getActiveOptions = createSelector(

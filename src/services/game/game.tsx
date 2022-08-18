@@ -56,6 +56,15 @@ export const gameSlice = createSlice({
     resetGame: (state) => {
       state.currentWord = 0
       state.words = []
+    },
+    repeatGame: (state) => {
+      state.words = state.words.map((word) => {
+        return {
+          ...word,
+          status: 'NOT-COMPLETE'
+        }
+      })
+      state.currentWord = 0
     }
   }
 })
@@ -112,6 +121,7 @@ export const {
   setWord,
   setWords,
   resetGame,
+  repeatGame,
 } = gameSlice.actions
 
 export default gameSlice.reducer
