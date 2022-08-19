@@ -19,7 +19,6 @@ const useGame = () => {
   } = useSelector((state: RootState) => state.game)
   const activeOptions = useSelector(getActiveOptions)
 
-
   useEffect(() => {
     if (currentWord < activeOptions.length) {
       return

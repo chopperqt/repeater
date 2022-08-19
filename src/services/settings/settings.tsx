@@ -59,11 +59,11 @@ export const getActiveOptions = createSelector(
   (words) => {
     return words
       .map((word) => {
-        if (word.isActive) {
-          return word
+        if (word?.isActive === false) {
+          return null
         }
 
-        return null
+        return word
       })
       .filter(Boolean) as WordsValues[]
   },
