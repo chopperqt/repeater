@@ -1,7 +1,15 @@
 import { StatusTranslate } from "services/game/game";
 
 export const checkTranslate = (word: string, translate: string): StatusTranslate => {
-  if (word.toLocaleLowerCase() === translate.toLocaleLowerCase()) {
+  const formattedWord = word
+    .replaceAll(' ', '')
+    .toLowerCase()
+
+  const formattedTranslate = word
+    .replaceAll(' ', '')
+    .toLowerCase()
+
+  if (formattedWord === formattedTranslate) {
     return 'COMPLETE'
   }
 

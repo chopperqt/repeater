@@ -18,6 +18,7 @@ import {
   resetGame,
   setWord,
 } from 'services/game/game'
+import { SKIP_WORD_TEXT } from 'language/ru'
 
 const useWordForm = () => {
   const dispatch = useDispatch()
@@ -68,6 +69,7 @@ const useWordForm = () => {
     dispatch(setWord({
       ...word,
       status: 'ERROR',
+      enteredWord: SKIP_WORD_TEXT,
     }))
 
     form.resetFields()
