@@ -4,15 +4,18 @@ import {
   Col,
   Row,
   Button,
+  Popover,
 } from 'antd'
 import {
   FastForwardOutlined,
   StepForwardOutlined,
   CloseOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons'
 
 import {
   END_TEXT,
+  HELP_TEXT,
   NEXT_TEXT,
   SKIP_TEXT,
   TRANSLATE_INPUT_TEXT,
@@ -31,6 +34,7 @@ const WordForm = () => {
     form,
     rule,
     hasWords,
+    normalizedTranslateWord,
   } = useWordForm()
 
   if (!hasWords) {
@@ -45,6 +49,15 @@ const WordForm = () => {
           <span className={styles.word}>
             {normalizedWord}
           </span>
+          <Popover
+            placement="top"
+            content={(
+              <div className={styles.text}>
+                {HELP_TEXT}{normalizedTranslateWord}
+              </div>
+            )}>
+            <InfoCircleOutlined />
+          </Popover>
         </div>
       </Row>
       <Col className={styles.form}>

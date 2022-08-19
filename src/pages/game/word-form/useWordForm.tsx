@@ -33,12 +33,15 @@ const useWordForm = () => {
     : RulesRussiaField
 
   let word = words[currentWord]?.english
+  let translateWord = words[currentWord]?.russia
 
   if (mode === 'rusToEng') {
     word = words[currentWord]?.russia
+    translateWord = words[currentWord]?.english
   }
 
   const normalizedWord = normalizeWord(word)
+  const normalizedTranslateWord = normalizeWord(translateWord)
 
   const handleSubmit = (value: GameForm) => {
     const {
@@ -90,6 +93,7 @@ const useWordForm = () => {
     form,
     rule,
     hasWords,
+    normalizedTranslateWord,
   }
 }
 
