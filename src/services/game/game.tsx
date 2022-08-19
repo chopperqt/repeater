@@ -6,6 +6,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { WordsValues } from "models/main";
 import { RootState } from "services/store";
+import normalizeWord from "helpers/normalizeWord";
 
 export interface Word extends WordsValues {
   status: StatusTranslate
@@ -101,18 +102,50 @@ export const getAmountOfErrorWords = createSelector(
   }
 )
 
-export const getErrorWords = createSelector(
+export const getRussiaErrorWords = createSelector(
   (state: RootState) => state.game.words,
   (words) => {
     return words
-      .map((word, index) => {
-        if (word.status !== 'ERROR') {
+      .map(({
+        status,
+        english,
+        russia,
+        enteredWord,
+      }) => {
+        if (status !== 'ERROR') {
           return null
         }
 
-        return word
+        return {
+          word: normalizeWord(english),
+          translate: normalizeWord(russia),
+          enteredWord: enteredWord,
+        }
       })
       .filter(Boolean)
+  }
+)
+
+export const getEnglishErrorWords = createSelector(
+  (state: RootState) => state.game.words,
+  (words) => {
+    return words
+      .map(({
+        status,
+        english,
+        enteredWord,
+        russia,
+      }) => {
+        if (status !== 'ERROR') {
+          return null
+        }
+
+        return {
+          word: normalizeWord(russia),
+          translate: normalizeWord(english),
+          enteredWord,
+        }
+      })
   }
 )
 

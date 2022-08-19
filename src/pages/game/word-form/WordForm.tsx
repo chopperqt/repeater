@@ -31,6 +31,10 @@ import { GameForm } from 'models/game'
 import { checkTranslate } from '../helpers/checkTransalate'
 import { resetSettings } from 'services/settings/settings'
 import normalizeWord from 'helpers/normalizeWord'
+import {
+  RulesEnglishField,
+  RulesRussiaField,
+} from 'assets/rules'
 
 import styles from './WordForm.module.scss'
 
@@ -40,6 +44,11 @@ const WordForm = () => {
   const words = useSelector((state: RootState) => state.game.words)
   const mode = useSelector((state: RootState) => state.settings.mode)
   const [form] = Form.useForm()
+
+  const rule = mode === 'rusToEng'
+    ? RulesEnglishField
+    : RulesRussiaField
+
 
   let word = words[currentWord]?.english
 
@@ -112,12 +121,7 @@ const WordForm = () => {
           <Col span={24}>
             <Form.Item
               name="word"
-              rules={[
-                {
-                  required: true,
-                  message: RequiredText,
-                }
-              ]}
+              rules={rule}
             >
               <Input
                 placeholder={TRANSLATE_INPUT_TEXT}

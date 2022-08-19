@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import {
   Form,
   Input,
@@ -24,86 +23,19 @@ import {
 import {
   RulesRussiaField,
   RulesEnglishField,
-} from './constants'
+} from 'assets/rules'
 
-import {
-  WordsForm,
-  WordsValues,
-} from 'models/main'
-import { useDispatch, useSelector } from 'react-redux'
-import { nextStep, setWords } from 'services/settings/settings'
+import useWordsList from './useWordsList'
 
 import styles from './WordsList.module.scss'
-import { RootState } from 'services/store'
-import { useEffect } from 'react'
-
-const defaultValue = {
-  words: [],
-}
 
 const List = () => {
-  const dispatch = useDispatch()
-  const values = localStorage.getItem('settings')
-  const words = useSelector((state: RootState) => state.settings.words)
-    .filter(Boolean)
-    .length
-  const formValueFromStorage = values
-    ? JSON.parse(values)
-    : defaultValue
-
-
-  const handleChange = (value: WordsValues, allValues: WordsForm) => {
-    const normalizedValues = allValues.words
-      .map((item) => {
-        if (!item) {
-          return null
-        }
-
-        const {
-          english,
-          russia,
-        } = item
-
-        if (!english && !russia) {
-          return null
-        }
-
-        return item
-      })
-      .filter(Boolean)
-
-    const valuesToJSON = JSON.stringify({
-      words: normalizedValues
-    })
-
-    dispatch(setWords(allValues))
-
-    localStorage.setItem('settings', valuesToJSON)
-  }
-
-  const handleFinish = (values: WordsForm) => {
-    const valuesToJSON = JSON.stringify(values)
-
-    dispatch(setWords(values))
-
-    localStorage.setItem('settings', valuesToJSON)
-  }
-
-  const handleClickNext = () => {
-    dispatch(nextStep())
-  }
-
-  const hasDisabled = useMemo(() => {
-    if (!words) {
-      return true
-    }
-
-    return false
-  }, [words])
-
-  useEffect(() => {
-    dispatch(setWords(formValueFromStorage))
-  }, [])
+  const {
+    handleChange,
+    handleFinish,
+    hasDisabled,
+    wordsFromLocal,
+  } = useWordsList()
 
   return (
     <Row
@@ -114,7 +46,7 @@ const List = () => {
       <Col span={24}>
         <Form
           onValuesChange={handleChange}
-          initialValues={formValueFromStorage}
+          initialValues={wordsFromLocal}
           onFinish={handleFinish}
         >
           <Form.List name="words">
@@ -196,24 +128,23 @@ const List = () => {
               </Col>
             )}
           </Form.List>
+          <Col span={24}>
+            <Row justify='center'>
+              <Form.Item>
+                <Button
+                  htmlType="submit"
+                  size="large"
+                  type='primary'
+                  className={styles.button}
+                  disabled={hasDisabled}
+                  icon={<PlayCircleOutlined />}
+                >
+                  {START_BUTTON_TEXT}
+                </Button>
+              </Form.Item>
+            </Row>
+          </Col>
         </Form >
-        <Col span={24}>
-          <Row justify='center'>
-            <Form.Item>
-              <Button
-                onClick={handleClickNext}
-                size="large"
-                type='primary'
-                className={styles.button}
-                disabled={hasDisabled}
-                icon={<PlayCircleOutlined />}
-              >
-                {START_BUTTON_TEXT}
-              </Button>
-            </Form.Item>
-          </Row>
-        </Col>
-
       </Col>
     </Row>
   )

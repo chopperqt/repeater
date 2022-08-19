@@ -5,7 +5,7 @@ import {
   Table,
   Button,
 } from 'antd'
-import { REPEAT_TEXT, RESET_TEXT, RESULT_TITLE } from 'language/ru'
+import { ALL_WORDS_TEXT, REPEAT_TEXT, RESET_TEXT, RESULT_TITLE } from 'language/ru'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   RollbackOutlined,
@@ -15,7 +15,8 @@ import {
 import {
   getAmountOfCompleteWords,
   getAmountOfErrorWords,
-  getErrorWords,
+  getEnglishErrorWords,
+  getRussiaErrorWords,
   repeatGame,
   resetGame,
   Word,
@@ -31,6 +32,7 @@ import {
 } from 'services/settings/settings'
 
 import styles from './Result.module.scss'
+import { RootState } from 'services/store'
 
 const {
   Title,
@@ -39,9 +41,16 @@ const {
 
 const Result = () => {
   const dispatch = useDispatch()
+  const mode = useSelector((state: RootState) => state.settings.mode)
+  const amountOfWords = useSelector((state: RootState) => state.game.words).length
   const amountOfCompleteWords = useSelector(getAmountOfCompleteWords)
   const amountOfErrorWords = useSelector(getAmountOfErrorWords)
-  const errorWords = useSelector(getErrorWords) as Word[]
+
+  const selectedErrorMode = mode === 'engToRus'
+    ? getRussiaErrorWords
+    : getEnglishErrorWords
+
+  const errorWords = useSelector(selectedErrorMode) as []
 
   const handleReset = () => {
     dispatch(resetSettings())
@@ -69,14 +78,19 @@ const Result = () => {
         <Text className={styles.description}>
           {ERROR_TEXT}{amountOfErrorWords}
         </Text>
+        <Text className={styles.description}>
+          {ALL_WORDS_TEXT}{amountOfWords}
+        </Text>
         {!!errorWords.length && (
           <Row>
-            <Table
-              className={styles.table}
-              dataSource={errorWords}
-              columns={Columns}
-              pagination={false}
-            />
+            <Col span={24}>
+              <Table
+                className={styles.table}
+                dataSource={errorWords}
+                columns={Columns}
+                pagination={false}
+              />
+            </Col>
           </Row>
         )}
         <Row

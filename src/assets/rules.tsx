@@ -1,14 +1,12 @@
 import {
-  onlyLatinica,
   onlyCyrillic,
+  onlyLatinica,
 } from "helpers/patterns"
 import {
   RequiredText,
   OnlyCyrillicText,
   OnlyLatinicaText,
 } from "helpers/validateMessages"
-
-
 
 export const RulesEnglishField = [
   {

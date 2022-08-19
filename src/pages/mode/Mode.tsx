@@ -14,39 +14,12 @@ import {
 } from 'language/ru'
 
 import styles from './Mode.module.scss'
-import { useDispatch } from "react-redux"
-import {
-  nextStep,
-  setMode,
-} from "services/settings/settings"
-import { ModeForm } from "models/mode"
-
-const defaultValue = {
-  mode: ''
-}
+import useMode from "./useMode"
 
 const Mode = () => {
-  const dispatch = useDispatch()
-  const values = localStorage.getItem('settings')
-  const formValueFromStorage = values
-    ? JSON.parse(values)
-    : defaultValue
-
-  const handleFinish = (values: ModeForm) => {
-    const formattedSettings = {
-      ...formValueFromStorage,
-      ...values,
-    }
-    const settingsToJSON = JSON.stringify(formattedSettings)
-
-    localStorage.setItem('settings', settingsToJSON)
-
-    dispatch(setMode({
-      mode: values.mode,
-    }))
-
-    dispatch(nextStep())
-  }
+  const {
+    handleFinish,
+  } = useMode()
 
   return (
     <Row
