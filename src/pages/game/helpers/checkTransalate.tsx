@@ -5,7 +5,7 @@ export const checkTranslate = (word: string, translate: string): StatusTranslate
     .replaceAll(' ', '')
     .toLowerCase()
 
-  const formattedTranslate = word
+  const formattedTranslate = translate
     .replaceAll(' ', '')
     .toLowerCase()
 
