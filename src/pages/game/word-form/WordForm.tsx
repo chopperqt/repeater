@@ -6,20 +6,11 @@ import {
   Button,
 } from 'antd'
 import {
-  useDispatch,
-  useSelector,
-} from 'react-redux'
-import {
   FastForwardOutlined,
   StepForwardOutlined,
   CloseOutlined,
 } from '@ant-design/icons'
 
-import {
-  RequiredText,
-} from 'helpers/validateMessages'
-import { nextWords, resetGame, setWord } from 'services/game/game'
-import { RootState } from 'services/store'
 import {
   END_TEXT,
   NEXT_TEXT,
@@ -27,79 +18,22 @@ import {
   TRANSLATE_INPUT_TEXT,
   TRANSLATE_TEXT,
 } from 'language/ru'
-import { GameForm } from 'models/game'
-import { checkTranslate } from '../helpers/checkTransalate'
-import { resetSettings } from 'services/settings/settings'
-import normalizeWord from 'helpers/normalizeWord'
-import {
-  RulesEnglishField,
-  RulesRussiaField,
-} from 'assets/rules'
+import useWordForm from './useWordForm'
 
 import styles from './WordForm.module.scss'
 
 const WordForm = () => {
-  const dispatch = useDispatch()
-  const currentWord = useSelector((state: RootState) => state.game.currentWord)
-  const words = useSelector((state: RootState) => state.game.words)
-  const mode = useSelector((state: RootState) => state.settings.mode)
-  const [form] = Form.useForm()
+  const {
+    handleReset,
+    handleSkip,
+    handleSubmit,
+    normalizedWord,
+    form,
+    rule,
+    hasWords,
+  } = useWordForm()
 
-  const rule = mode === 'rusToEng'
-    ? RulesEnglishField
-    : RulesRussiaField
-
-
-  let word = words[currentWord]?.english
-
-  if (mode === 'rusToEng') {
-    word = words[currentWord]?.russia
-  }
-
-  const normalizedWord = normalizeWord(word)
-
-  const handleSubmit = (value: GameForm) => {
-    const {
-      russia,
-      english,
-    } = words[currentWord]
-    let word = russia
-
-    if (mode === 'rusToEng') {
-      word = english
-    }
-
-    const status = checkTranslate(word, value.word)
-
-    dispatch(setWord({
-      ...words[currentWord],
-      status,
-      enteredWord: value.word,
-    }))
-
-    form.resetFields()
-
-    dispatch(nextWords())
-  }
-
-  const handleSkip = () => {
-    const word = words[currentWord]
-    dispatch(setWord({
-      ...word,
-      status: 'ERROR',
-    }))
-
-    form.resetFields()
-
-    dispatch(nextWords())
-  }
-
-  const handleReset = () => {
-    dispatch(resetSettings())
-    dispatch(resetGame())
-  }
-
-  if (!words) {
+  if (!hasWords) {
     return null
   }
 

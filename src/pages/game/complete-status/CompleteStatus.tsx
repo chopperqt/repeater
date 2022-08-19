@@ -10,7 +10,7 @@ interface CompleteStatusProps {
   words: Word[]
 }
 const CompleteStatus = ({
-  words,
+  words = [],
 }: CompleteStatusProps) => {
   if (!words.length) {
     return null

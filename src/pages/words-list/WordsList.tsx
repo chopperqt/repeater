@@ -66,9 +66,9 @@ const List = () => {
                         {...resetField}
                         name={[name, 'isActive']}
                         valuePropName="checked"
-                        initialValue={true}
                       >
                         <Switch
+                          defaultChecked={true}
                           checkedChildren={<CheckOutlined />}
                           unCheckedChildren={<CloseOutlined />}
                         />

@@ -5,8 +5,13 @@ import {
   Table,
   Button,
 } from 'antd'
-import { ALL_WORDS_TEXT, REPEAT_TEXT, RESET_TEXT, RESULT_TITLE } from 'language/ru'
-import { useDispatch, useSelector } from 'react-redux'
+import {
+  ALL_WORDS_TEXT,
+  REPEAT_TEXT,
+  RESET_TEXT,
+  RESULT_TITLE,
+} from 'language/ru'
+import { useSelector } from 'react-redux'
 import {
   RollbackOutlined,
   UndoOutlined,
@@ -15,24 +20,16 @@ import {
 import {
   getAmountOfCompleteWords,
   getAmountOfErrorWords,
-  getEnglishErrorWords,
-  getRussiaErrorWords,
-  repeatGame,
-  resetGame,
-  Word,
 } from 'services/game/game'
 import {
   COMPLETE_TEXT,
   ERROR_TEXT,
 } from 'language/ru'
 import { Columns } from './constants'
-import {
-  repeatSettings,
-  resetSettings,
-} from 'services/settings/settings'
+import { RootState } from 'services/store'
+import useResult from './useResult'
 
 import styles from './Result.module.scss'
-import { RootState } from 'services/store'
 
 const {
   Title,
@@ -40,27 +37,15 @@ const {
 } = Typography
 
 const Result = () => {
-  const dispatch = useDispatch()
-  const mode = useSelector((state: RootState) => state.settings.mode)
+  const {
+    handleRepeat,
+    handleReset,
+    errorWords,
+  } = useResult()
+
   const amountOfWords = useSelector((state: RootState) => state.game.words).length
   const amountOfCompleteWords = useSelector(getAmountOfCompleteWords)
   const amountOfErrorWords = useSelector(getAmountOfErrorWords)
-
-  const selectedErrorMode = mode === 'engToRus'
-    ? getRussiaErrorWords
-    : getEnglishErrorWords
-
-  const errorWords = useSelector(selectedErrorMode) as []
-
-  const handleReset = () => {
-    dispatch(resetSettings())
-    dispatch(resetGame())
-  }
-
-  const handleRepeat = () => {
-    dispatch(repeatSettings())
-    dispatch(repeatGame())
-  }
 
   return (
     <Row

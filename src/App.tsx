@@ -1,13 +1,11 @@
 
 import {
-  Steps,
   Row,
   Col,
+  Steps
 } from 'antd';
-
-import './App.scss'
-
 import { useSelector } from 'react-redux';
+
 import { RootState } from 'services/store';
 import {
   Mode,
@@ -16,7 +14,9 @@ import {
   Game,
 } from 'pages';
 
-const { Step } = Steps
+import './App.scss'
+
+const RESULT_STEP = 3
 
 const steps = [
   {
@@ -50,18 +50,20 @@ function App() {
           <div className="container">
             {steps[currentStep].content}
           </div>
-          <div className="container">
-            <div className='steps'>
-              <Steps current={currentStep}>
-                {steps.map(({ title }) => (
-                  <Step
-                    key={title}
-                    title={title}
-                  />
-                ))}
-              </Steps>
+          {currentStep !== RESULT_STEP && (
+            <div className="container">
+              <div className='steps'>
+                <Steps current={currentStep}>
+                  {steps.map(({ title }) => (
+                    <Steps.Step
+                      key={title}
+                      title={title}
+                    />
+                  ))}
+                </Steps>
+              </div>
             </div>
-          </div>
+          )}
         </Col>
       </Row>
     </div>

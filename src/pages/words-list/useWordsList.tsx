@@ -29,6 +29,7 @@ const useWordsList = () => {
     ? JSON.parse(valuesFromLocal)
     : defaultValue
 
+
   const handleChange = ({ }, allValues: WordsForm) => {
     const normalizedWords = getNormalizeWords(allValues.words)
 
