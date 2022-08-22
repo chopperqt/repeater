@@ -12,6 +12,12 @@ https://chopperqt.github.io/repeater/
 - Multiple modes
 - No authorization, and other things that can distract
 
+## 🔮 In future
+
+- Add `EN` localization
+- Add `Shuffle` mode
+- Add `exclusion` mode
+
 ## ⚙️ Usage
 
 1. Add words.
