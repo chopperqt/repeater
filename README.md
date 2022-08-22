@@ -14,9 +14,10 @@ https://chopperqt.github.io/repeater/
 
 ## 🔮 In future
 
-- Add `EN` localization
-- Add `Shuffle` mode
-- Add `exclusion` mode
+- [ ] Add `EN` localization
+- [ ] Add `Shuffle` mode
+- [ ] Add `exclusion` mode
+- [ ] A word can have multiple translations
 
 ## ⚙️ Usage
 
